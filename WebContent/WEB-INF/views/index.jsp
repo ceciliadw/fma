@@ -1,7 +1,5 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"  
-	  xmlns:th="http://www.thymeleaf.org"
-	  xmlns:social="http://spring.io/springsocial">
+<!DOCTYPE html>
+<html>
 <head>
 	<title>Frugal Mumma Auckland - Welcome!</title>
 	<meta charset="utf-8"></meta>
@@ -9,33 +7,25 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"></link>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous"></link>
 	<link href="resources/css/signin.css" rel="stylesheet"></link>	
+	<script src="resources/js/fblogin.js" ></script>
 	<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
 	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
-	<!--  
-	<div id="fb-root"></div>
-	<script>(function(d, s, id) {
-	  var js, fjs = d.getElementsByTagName(s)[0];
-	  if (d.getElementById(id)) return;
-	  js = d.createElement(s); js.id = id;
-	  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5&appId=974214759339775";
-	  fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));
-	</script>
-	<div class="fb-login-button" data-max-rows="1" data-size="xlarge" data-show-faces="false" data-auto-logout-link="true"></div>
-	-->
-	
-	
+<script>
+//FMA group id: 195962353890440
+//195962353890440/members?limit=10&offset=10
+
+</script>
+
 	<div class="container">
-      <form class="form-signin" action="/connect/facebook" method="POST">
+      <div class="form-signin" >
         <h2 class="form-signin-heading">Welcome to Frugal Mumma Auckland</h2>        
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in with Facebook</button>
-        <input type="hidden" name="scope" value="user_posts" />
-      </form>
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" size="xlarge" default_audience="only_me" auto_logout_link="true"></fb:login-button>
+        <div id="status"></div>
+      </div>
 	</div>
 
-	
 </body>
 </html>

@@ -5,15 +5,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.social.connect.web.thymeleaf.SpringSocialDialect;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
-import org.thymeleaf.templateresolver.TemplateResolver;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
@@ -25,34 +22,18 @@ public class WebMvcConfig  extends WebMvcConfigurerAdapter{
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 	
-	@Bean(name ="templateResolver")
-	public TemplateResolver getTemplateResolver() {
-    	ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
-    	templateResolver.setPrefix("/WEB-INF/views/");
-    	templateResolver.setSuffix(".html");
-	    templateResolver.setTemplateMode("XHTML");
-	    templateResolver.setCacheable(false);
-		return templateResolver;
-	}
-
 	
-	@Bean(name ="templateEngine")
-	public SpringTemplateEngine getTemplateEngine() {
-		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-		templateEngine.setTemplateResolver(getTemplateResolver());
-		templateEngine.addDialect(new SpringSocialDialect());
-		return templateEngine;
-	}	
+	@Bean
+    public ViewResolver viewResolver() {
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setViewClass(JstlView.class);
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp"); 
+        return viewResolver;
+    }
+ 	
 	
-
-	@Bean(name="viewResolver")
-	public ViewResolver getViewResolver() {
-		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();	
-		viewResolver.setTemplateEngine(getTemplateEngine());
-		return viewResolver;
-	}
-	
-	@Bean(name ="messageSource")
+	@Bean(name="messageSource")
 	public MessageSource getMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("/WEB-INF/messages/messages");

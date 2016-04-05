@@ -15,12 +15,9 @@ public class WelcomeController {
 	
 	private static final Logger logger = LogManager.getLogger(WelcomeController.class.getName());
 	
-
-
-
     @RequestMapping(method=RequestMethod.GET)
     public String helloFacebook(Model model) {
-    	logger.debug("cdw - test from index");
+    	logger.entry();
 
         return "index";
     }

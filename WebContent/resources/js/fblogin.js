@@ -46,7 +46,7 @@
 
   // This is called with the results from from FB.getLoginStatus().
   function statusChangeCallback(response) {
-    console.log('statusChangeCallback');
+    console.log('login - statusChangeCallback');
     console.log(response);
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
@@ -71,9 +71,79 @@
   // successful.  See statusChangeCallback() for when this call is made.
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
+    disableScreen();
     FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
+    	console.log(response);
+    	console.log("going to validate if user is a FMA member");
+        validateIfUserIsMember(response, 0);
+    	
+        console.log('Successful login for: ' + response.name);
+        document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!' + response.id;
     });
   }
+  
+  
+  function disableScreen(){
+	  $.blockUI({ css: { 
+          border: 'none', 
+          padding: '15px', 
+          backgroundColor: '#000', 
+          '-webkit-border-radius': '10px', 
+          '-moz-border-radius': '10px', 
+          opacity: .5, 
+          color: '#fff' 
+      } }); 
+  }
+  
+  function enableScreen(){
+	  $.unblockUI();
+  }
+
+  
+  function validateIfUserIsMember(user, offsetValue){
+	  var userIsMember = false; 
+	  FB.api(
+			  '/195962353890440/members',
+			  'GET',
+			  {"limit":"1000","offset":offsetValue},
+			  function(response) {
+				  //check if user is a member
+				  console.log("offset:" + offsetValue);
+				  console.log(response);
+			      $.each( response.data, function( index, member ) {
+			    	  if(member.id == user.id){
+			    		  console.log("member found");
+			    		  console.log(member); 
+			    		  userIsMember = true; 
+			    	  }
+			      });
+			      
+
+				  if(userIsMember){
+					  //user is a member, can continue
+					  console.log("authorized to use this app.");
+					  enableScreen(); 
+				  }
+				  else{
+					  //check if next page exists
+					  var nextPage =  response.paging.next;
+					  if (typeof(nextPage) != 'undefined' && nextPage != null){
+						  offsetValue += 1000;
+				    	  console.log("continue to next page. offset:" + offsetValue);
+				    	  validateIfUserIsMember(user, offsetValue);
+					  } else{
+						  //no next page, user is not a member 
+						  console.log("not authorized to use this app.");
+						  //todo: update user in admin page
+						  FB.logout(function(response) {
+							  // user is now logged out
+							  document.getElementById('status').innerHTML = 'You are not a member of Frugal Mumma Auckland. Please login as a different user.'; 
+							  enableScreen(); 
+						  });
+					  }					  
+				  }
+			  }
+			);
+  }
+  
+  

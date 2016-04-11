@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,19 +17,17 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </head>
 <body>
-<script>
-//FMA group id: 195962353890440
-//195962353890440/members?limit=10&offset=10
-
-</script>
-
 	<div class="container">
       <div class="form-signin" >
+      	<input type="submit" value="Save" />
         <h2 class="form-signin-heading">Welcome to Frugal Mumma Auckland</h2>        
         <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" size="xlarge" default_audience="only_me" ></fb:login-button>
         <div id="status"></div>
       </div>
 	</div>
-
+	<form id="loginForm" action="login" method="post" >
+		<input type="hidden" id="userid" name="userid" />
+		<input type="hidden" id="displayName" name="displayName" />		
+	</form>
 </body>
 </html>

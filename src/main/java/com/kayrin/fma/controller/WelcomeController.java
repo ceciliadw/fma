@@ -16,7 +16,7 @@ public class WelcomeController {
 	private static final Logger logger = LogManager.getLogger(WelcomeController.class.getName());
 	
     @RequestMapping(method=RequestMethod.GET)
-    public String helloFacebook(Model model) {
+    public String welcome(Model model) {
     	logger.entry();
 
         return "index";

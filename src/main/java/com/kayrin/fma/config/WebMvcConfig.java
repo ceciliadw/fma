@@ -2,7 +2,6 @@ package com.kayrin.fma.config;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.kayrin.fma")
 public class WebMvcConfig  extends WebMvcConfigurerAdapter{
 	
 	@Override
@@ -39,7 +37,6 @@ public class WebMvcConfig  extends WebMvcConfigurerAdapter{
 		messageSource.setBasename("/WEB-INF/messages/messages");
 		return messageSource;
 	}
-
 
 
 

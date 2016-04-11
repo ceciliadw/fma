@@ -16,6 +16,9 @@
 		</RollingFile>
 	</Appenders>
 	<Loggers>
+		 <Logger name="org.hibernate" level="info" additivity="false">
+		 	<appender-ref ref="RollingFile" level="info" />
+		 </Logger>
 		<Logger name="root" level="trace" additivity="false">
 			<appender-ref ref="RollingFile" level="trace" />
 		</Logger>

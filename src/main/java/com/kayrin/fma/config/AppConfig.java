@@ -3,6 +3,8 @@ package com.kayrin.fma.config;
 import java.util.Properties;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 public class AppConfig {
+	
+	private static final Logger logger = LogManager.getLogger(AppConfig.class.getName());
 	
 	@Value("${db.url}")
 	private String dbUrl;
@@ -46,12 +50,12 @@ public class AppConfig {
 	}
 	
 	@Bean(name = "dataSource")
-	public BasicDataSource dataSource() {		
+	public BasicDataSource dataSource() {	
 		BasicDataSource ds = new BasicDataSource();
 	    ds.setDriverClassName("com.mysql.jdbc.Driver");
-		ds.setUrl("jdbc:mysql://localhost:3306/myfmadev");
-		ds.setUsername("myfmaweb");
-		ds.setPassword("myfmadevpwd");
+		ds.setUrl(dbUrl);
+		ds.setUsername(dbUser);
+		ds.setPassword(dbPassword);
 		return ds;
 	}
 	

@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.handler.UserRoleAuthorizationInterceptor;
 
+import com.kayrin.fma.dao.AbstractHibernateDao;
 import com.kayrin.fma.dao.FmaUserDao;
 import com.kayrin.fma.model.FmaUser;
 
@@ -32,6 +33,16 @@ public class FmaUserService implements UserDetailsService{
 		logger.entry();
 		return fmaUserDao.findByUserid(userid);
 	}
+	
+	public FmaUser create(final String userid, String displayName){
+		logger.entry();
+		FmaUser user = new FmaUser(userid, displayName); 
+		FmaUser auditUser = new FmaUser(""+AbstractHibernateDao.SYSTEM_USER_ID, "system"); 
+		user = fmaUserDao.saveOrUpdate(user, auditUser);
+		logger.debug("new user.id = " + user.getId());
+		return user;
+	}
+
 
 	@Override
 	public UserDetails loadUserByUsername(final String userid) throws UsernameNotFoundException {

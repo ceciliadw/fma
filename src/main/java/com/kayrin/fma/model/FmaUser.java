@@ -1,9 +1,14 @@
 package com.kayrin.fma.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -12,17 +17,28 @@ public class FmaUser extends AbstractAuditableModel{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String userid; 
+	private String fbUserId; 
 	private String displayName; 
 	private String email; 
 	private Date createdDate;
 	
-	@Column(name = "userid")
-	public String getUserid() {
-		return userid;
+	private Set<UserRole> userRoles = new HashSet<>(); 
+	
+	public FmaUser(){}
+	
+	public FmaUser(String userid, String displayName){
+		this.fbUserId = userid;
+		this.displayName = displayName; 
+		this.createdDate = new Date(); 
 	}
-	public void setUserid(String userid) {
-		this.userid = userid;
+	
+	
+	@Column(name = "fb_user_id")
+	public String getFbUserId() {
+		return fbUserId;
+	}
+	public void setFbUserId(String userid) {
+		this.fbUserId = userid;
 	}
 	
 	@Column(name = "display_name")
@@ -47,7 +63,20 @@ public class FmaUser extends AbstractAuditableModel{
 	}
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
-	} 
+	}
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade=CascadeType.ALL)
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public void addRole(Role role){	
+		this.userRoles.add(new UserRole(this, role));
+	}
 
 
 }

@@ -41,7 +41,9 @@ public class LoginController {
     	logger.debug("displayName " + displayName); 
     	FmaUser user = userDetailsService.findByUserid(userid);
 		logger.debug(user);
-    	
+    	if(user == null){
+    		userDetailsService.create(userid, displayName);
+    	}
     	//verify user is authorized
     	//check if name needs to be updated? - low priority
     	//get user roles

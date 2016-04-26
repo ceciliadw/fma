@@ -19,10 +19,9 @@
 <body>
 	<div class="container">
       <div class="form-signin" >
-      	<input type="submit" value="Save" />
         <h2 class="form-signin-heading">Welcome to Frugal Mumma Auckland</h2>        
         <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" size="xlarge" default_audience="only_me" ></fb:login-button>
-        <div id="status"></div>
+        <div id="status">${message}</div>
       </div>
 	</div>
 	<form id="loginForm" action="login" method="post" >

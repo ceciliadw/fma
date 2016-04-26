@@ -1,5 +1,6 @@
 package com.kayrin.fma.model;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,10 +11,14 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "fma_user")
-public class FmaUser extends AbstractAuditableModel{
+public class FmaUser extends AbstractAuditableModel implements UserDetails{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -76,6 +81,52 @@ public class FmaUser extends AbstractAuditableModel{
 
 	public void addRole(Role role){	
 		this.userRoles.add(new UserRole(this, role));
+	}
+
+	//security
+	@Transient
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return this.userRoles;
+	}
+
+	@Override
+	@Transient
+	public String getPassword() {
+		return null;
+	}
+
+	@Override
+	@Transient
+	public String getUsername() {
+		return this.getFbUserId();
+	}
+
+	@Override
+	@Transient
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	@Transient
+	public boolean isEnabled() {
+		if(this.getDeleted() == null){
+			return false; 
+		}
+		return !this.getDeleted();
 	}
 
 

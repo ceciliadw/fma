@@ -31,24 +31,15 @@ public class TestFmaUserDao extends AbstractTestDao{
 		Assert.notNull(user);
 	}
 	
-	//10154166970254962	
 	@Test
+	@Ignore
 	public void testUpdateRole(){
 		FmaUser user =  fmaUserDao.findByUserid("my-admin-2"); 	
 		Role role = roleDao.findByRoleName("post_iso");
 		Role role2 = roleDao.findByRoleName("post_offering");
 		Role role3 = roleDao.findByRoleName("nominated_offering");
 		
-//		UserRole ur1 = new UserRole(); 
-//		ur1.setRole(role);
-//		ur1.setUser(user);
-//		//fmaUserDao.saveOrUpdateAssociation(ur1, getSuperAdminUser());
-//		
-//		Set<UserRole> userRoles = new HashSet<UserRole>(); 
-//		userRoles.add(ur1); 
-//		user.setUserRoles(userRoles);
-		
-		//user.addRole(role2);
+
 		user.setUserRoles(new HashSet<UserRole>());
 		user.addRole(role3);
 		fmaUserDao.saveOrUpdate(user, getSuperAdminUser());

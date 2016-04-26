@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "user_role")
-public class UserRole extends AbstractAuditableModel{
+public class UserRole extends AbstractAuditableModel implements GrantedAuthority{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -42,6 +45,25 @@ public class UserRole extends AbstractAuditableModel{
 
 	public void setUser(FmaUser user) {
 		this.user = user;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if (!(obj instanceof UserRole) || obj == null){
+			return false;
+		}
+		
+		UserRole userRole = (UserRole)obj;
+		
+		return     (this.getUser() == null && userRole.getUser() == null || (this.getUser() != null && this.getUser().equals(userRole.getUser()))) 
+				&& (this.getRole() == null && userRole.getRole() == null || (this.getRole() != null && this.getRole().equals(userRole.getRole())));
+		
+	}
+
+	@Override
+	@Transient
+	public String getAuthority() {
+		return role.getRoleName();
 	}
 
 }

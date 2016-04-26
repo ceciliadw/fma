@@ -78,7 +78,7 @@
         validateIfUserIsMember(response, 0);
     	
         console.log('Successful login for: ' + response.name);
-        document.getElementById('status').innerHTML = 'Thanks for logging in, ' + response.name + '!' + response.id;
+        document.getElementById('status').innerHTML = 'Checking credentials of ' + response.name + '...';
     });
   }
   
